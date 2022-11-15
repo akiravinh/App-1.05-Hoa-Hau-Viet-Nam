@@ -1,194 +1,134 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 
-void main(List<String> args) {
-  runApp(MyApp());
+void main() {
+  runApp(const OngBa());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+int counterOngBa = 0;
+int counterBoMe = 0;
+int counterConCai = 0;
+int counterCoChu = 0;
+
+class OngBa extends StatefulWidget {
+  const OngBa({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'MyApp Chrome',
-      home: Scaffold(
-        body: Page1(),
-      ),
-    );
+  State<OngBa> createState() => _OngBaState();
+}
+
+class _OngBaState extends State<OngBa> {
+  void foo() {
+    setState(() {
+      // counterOngBa++;
+      print('Class OngBa setState lan thu $counterOngBa');
+      print('Class ConCai setState lan thu $counterConCai');
+    });
   }
-}
-
-class Page1 extends StatelessWidget {
-  const Page1({super.key});
 
   @override
   Widget build(BuildContext context) {
-    double width_screen = MediaQuery.of(context).size.width;
-    double height_screen = MediaQuery.of(context).size.height;
-    var style1 = TextStyle(
-        fontSize: 38,
-        color: Color(0xff707070),
-        fontFamily: 'Candara',
-        fontWeight: FontWeight.bold);
-    var style2 = TextStyle(
-        fontSize: 42,
-        color: Color(0xff707070),
-        fontFamily: 'Candara',
-        fontWeight: FontWeight.bold);
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-          gradient: LinearGradient(
-        colors: [Color(0xffF3F684), Color(0xff1EDCF2)],
-        begin: Alignment.bottomLeft,
-        end: Alignment.topRight,
-      )),
+    counterOngBa++;
+    print('Class OngBa build lan thu $counterOngBa');
+    return Directionality(
+      textDirection: TextDirection.ltr,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(
-            height: 156,
+          Center(
+            child: ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    print('Class OngBa setState lan thu $counterOngBa');
+                  });
+                },
+                child: Text('OngBa build lan thu $counterOngBa')),
           ),
-          CircleAvatar(
-            backgroundImage: AssetImage('./assets/use/phuonganh256.jpg'),
-            radius: 128,
-          ),
-          SizedBox(
-            height: 50,
-          ),
-          Text(
-            'CHUNG KẾT',
-            style: style1,
-          ),
-          SizedBox(
-            height: 6,
-          ),
-          Text(
-            'HOA HẬU VIỆT NAM 2022',
-            style: style1,
-          ),
-          SizedBox(
-            height: 150,
-          ),
-          OutlinedButton(
-            onPressed: () {
-              debugPrint(width_screen.toString());
-              debugPrint(height_screen.toString());
-              Navigator.push(
-                context,
-                PageRouteBuilder(
-                  pageBuilder: (_, __, ___) => Page2(),
-                  transitionDuration: const Duration(milliseconds: 300),
-                  transitionsBuilder: (_, a, __, c) =>
-                      FadeTransition(opacity: a, child: c),
-                ),
-              );
-            },
-            child: Padding(
-              padding:
-                  const EdgeInsets.only(top: 15, bottom: 5, left: 30, right: 5),
-              child: SizedBox(
-                height: 50,
-                width: 230,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'TIẾP TỤC ',
-                      style: style2,
-                    ),
-                    Icon(
-                      Icons.chevron_right,
-                      color: Color(0xff707070),
-                      size: 55,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            style: OutlinedButton.styleFrom(shape: StadiumBorder()),
-          )
+          BoMe(foo: foo),
+          CoChu(),
         ],
       ),
     );
   }
 }
 
-class Page2 extends StatelessWidget {
-  const Page2({super.key});
+class BoMe extends StatefulWidget {
+  const BoMe({Key? key, this.foo}) : super(key: key);
+  final VoidCallback? foo;
 
   @override
+  _BoMeState createState() => _BoMeState();
+}
+
+class _BoMeState extends State<BoMe> {
+  @override
   Widget build(BuildContext context) {
-    var style1 = TextStyle(
-        fontSize: 38,
-        color: Color(0xff707070),
-        fontFamily: 'Candara',
-        fontWeight: FontWeight.bold);
-    var style2 = TextStyle(
-        fontSize: 42,
-        color: Color(0xff707070),
-        fontFamily: 'Candara',
-        fontWeight: FontWeight.bold);
-    double width_screen = MediaQuery.of(context).size.width;
-    debugPrint(width_screen.toString());
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('ĐĂNG NHẬP'),
-        centerTitle: true,
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  colors: [Color(0xff53e2d7), Color(0xff1EDCF2)])),
-        ),
+    counterBoMe++;
+    print('Class BoMe build lan thu $counterBoMe');
+    return Column(children: [
+      ElevatedButton(
+        onPressed: () {
+          widget.foo!();
+          setState(() {
+            // counterOngBa++;
+            // print('Class OngBa setState lan thu $counterOngBa');
+
+            print('Class BoMe setState lan thu $counterBoMe');
+          });
+        },
+        child: Text('BoMe build lan thu $counterBoMe'),
       ),
-      body: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-          colors: [Color(0xffF3F684), Color(0xff1EDCF2)],
-          begin: Alignment.bottomLeft,
-          end: Alignment.topRight,
-        )),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 100,
-            ),
-            CircleAvatar(
-              backgroundImage: AssetImage('./assets/use/phuonganh256.jpg'),
-              radius: 128,
-            ),
-            SizedBox(
-              height: 50,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 70, right: 70),
-              child: TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20))),
-                  labelText: 'Email',
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 70, right: 70),
-              child: TextField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  fillColor: Colors.amber,
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20))),
-                  labelText: 'Password',
-                ),
-              ),
-            )
-          ],
-        ),
+      ConCai(),
+    ]);
+  }
+}
+
+class ConCai extends StatefulWidget {
+  const ConCai({Key? key}) : super(key: key);
+
+  @override
+  _ConCaiState createState() => _ConCaiState();
+}
+
+class _ConCaiState extends State<ConCai> {
+  @override
+  Widget build(BuildContext context) {
+    counterConCai++;
+    print('Class ConCai build lan thu $counterConCai');
+    return Container(
+      child: ElevatedButton(
+        onPressed: () {
+          setState(() {
+            counterOngBa++;
+            print('Class OngBa setState lan thu $counterOngBa');
+            print('Class ConCai setState lan thu $counterConCai');
+          });
+        },
+        child: Text('ConCai build lan thu $counterConCai'),
+      ),
+    );
+  }
+}
+
+class CoChu extends StatefulWidget {
+  const CoChu({Key? key}) : super(key: key);
+
+  @override
+  _CoChuState createState() => _CoChuState();
+}
+
+class _CoChuState extends State<CoChu> {
+  @override
+  Widget build(BuildContext context) {
+    counterCoChu++;
+    print('Class CoChu build lan thu $counterCoChu');
+    return Container(
+      child: ElevatedButton(
+        onPressed: () {
+          setState(() {
+            print('Class CoChu setState lan thu $counterCoChu');
+          });
+        },
+        child: Text('CoChu lan thu $counterCoChu'),
       ),
     );
   }
