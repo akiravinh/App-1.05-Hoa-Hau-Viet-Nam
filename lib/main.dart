@@ -1,134 +1,103 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-void main() {
-  runApp(const OngBa());
+void main(List<String> args) {
+  runApp(ChangeNotifierProvider(
+    create: (_) => CounterProvider_NCC(),
+    child: MaterialApp(
+      title: 'Provider bán rượu',
+      home: HomeScreen_1(),
+    ),
+  ));
 }
 
-int counterOngBa = 0;
-int counterBoMe = 0;
-int counterConCai = 0;
-int counterCoChu = 0;
-
-class OngBa extends StatefulWidget {
-  const OngBa({Key? key}) : super(key: key);
-
-  @override
-  State<OngBa> createState() => _OngBaState();
-}
-
-class _OngBaState extends State<OngBa> {
-  void foo() {
-    setState(() {
-      // counterOngBa++;
-      print('Class OngBa setState lan thu $counterOngBa');
-      print('Class ConCai setState lan thu $counterConCai');
-    });
-  }
+class HomeScreen_1 extends StatelessWidget {
+  const HomeScreen_1({super.key});
 
   @override
   Widget build(BuildContext context) {
-    counterOngBa++;
-    print('Class OngBa build lan thu $counterOngBa');
-    return Directionality(
-      textDirection: TextDirection.ltr,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(
-            child: ElevatedButton(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Oc cho la co that'),
+      ),
+      body: Container(
+        height: double.infinity,
+        width: double.infinity,
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+          colors: [Colors.yellow, Colors.teal],
+          begin: Alignment.bottomLeft,
+          end: Alignment.topRight,
+        )),
+        child: Column(
+          children: [
+            SizedBox(height: 300),
+            Text(context.watch<CounterProvider_NCC>().get_c.toString()),
+            SizedBox(height: 100),
+            ElevatedButton(
                 onPressed: () {
-                  setState(() {
-                    print('Class OngBa setState lan thu $counterOngBa');
-                  });
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (_) => Page2()));
                 },
-                child: Text('OngBa build lan thu $counterOngBa')),
-          ),
-          BoMe(foo: foo),
-          CoChu(),
-        ],
+                child: Text('Go to Page 2'))
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.plus_one),
+        onPressed: () {
+          context.read<CounterProvider_NCC>().plus();
+        },
       ),
     );
   }
 }
 
-class BoMe extends StatefulWidget {
-  const BoMe({Key? key, this.foo}) : super(key: key);
-  final VoidCallback? foo;
-
-  @override
-  _BoMeState createState() => _BoMeState();
-}
-
-class _BoMeState extends State<BoMe> {
-  @override
-  Widget build(BuildContext context) {
-    counterBoMe++;
-    print('Class BoMe build lan thu $counterBoMe');
-    return Column(children: [
-      ElevatedButton(
-        onPressed: () {
-          widget.foo!();
-          setState(() {
-            // counterOngBa++;
-            // print('Class OngBa setState lan thu $counterOngBa');
-
-            print('Class BoMe setState lan thu $counterBoMe');
-          });
-        },
-        child: Text('BoMe build lan thu $counterBoMe'),
-      ),
-      ConCai(),
-    ]);
+class CounterProvider_NCC extends ChangeNotifier {
+  int _c = 1000;
+  int get get_c => _c;
+  void plus() {
+    _c++;
+    notifyListeners();
   }
 }
 
-class ConCai extends StatefulWidget {
-  const ConCai({Key? key}) : super(key: key);
+class Page2 extends StatelessWidget {
+  const Page2({super.key});
 
-  @override
-  _ConCaiState createState() => _ConCaiState();
-}
-
-class _ConCaiState extends State<ConCai> {
   @override
   Widget build(BuildContext context) {
-    counterConCai++;
-    print('Class ConCai build lan thu $counterConCai');
-    return Container(
-      child: ElevatedButton(
-        onPressed: () {
-          setState(() {
-            counterOngBa++;
-            print('Class OngBa setState lan thu $counterOngBa');
-            print('Class ConCai setState lan thu $counterConCai');
-          });
-        },
-        child: Text('ConCai build lan thu $counterConCai'),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Oc cho la co that'),
       ),
-    );
-  }
-}
-
-class CoChu extends StatefulWidget {
-  const CoChu({Key? key}) : super(key: key);
-
-  @override
-  _CoChuState createState() => _CoChuState();
-}
-
-class _CoChuState extends State<CoChu> {
-  @override
-  Widget build(BuildContext context) {
-    counterCoChu++;
-    print('Class CoChu build lan thu $counterCoChu');
-    return Container(
-      child: ElevatedButton(
+      body: Container(
+        height: double.infinity,
+        width: double.infinity,
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+          colors: [Colors.yellow, Colors.teal],
+          begin: Alignment.bottomLeft,
+          end: Alignment.topRight,
+        )),
+        child: Column(
+          children: [
+            SizedBox(height: 300),
+            Text(context.watch<CounterProvider_NCC>().get_c.toString()),
+            SizedBox(height: 100),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('Go to Page 1'))
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.plus_one),
         onPressed: () {
-          setState(() {
-            print('Class CoChu setState lan thu $counterCoChu');
-          });
+          context.read<CounterProvider_NCC>().plus();
         },
-        child: Text('CoChu lan thu $counterCoChu'),
       ),
     );
   }
