@@ -2,63 +2,59 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 void main(List<String> args) {
-  runApp(ChangeNotifierProvider(
-    create: (_) => CounterProvider_NCC(),
-    child: MaterialApp(
-      title: 'Provider bán rượu',
-      home: HomeScreen_1(),
-    ),
-  ));
+  runApp(MyAPP());
 }
 
-class HomeScreen_1 extends StatelessWidget {
-  const HomeScreen_1({super.key});
+class MyAPP extends StatelessWidget {
+  const MyAPP({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Oc cho la co that'),
-      ),
-      body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-          colors: [Colors.yellow, Colors.teal],
-          begin: Alignment.bottomLeft,
-          end: Alignment.topRight,
-        )),
-        child: Column(
-          children: [
-            SizedBox(height: 300),
-            Text(context.watch<CounterProvider_NCC>().get_c.toString()),
-            SizedBox(height: 100),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (_) => Page2()));
-                },
-                child: Text('Go to Page 2'))
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.plus_one),
-        onPressed: () {
-          context.read<CounterProvider_NCC>().plus();
-        },
+    return ChangeNotifierProvider(
+      create: (_) => NCC(),
+      child: MaterialApp(
+        home: Page1(),
       ),
     );
   }
 }
 
-class CounterProvider_NCC extends ChangeNotifier {
-  int _c = 1000;
-  int get get_c => _c;
-  void plus() {
-    _c++;
+class NCC extends ChangeNotifier {
+  int _number = 100;
+  int get get_number => _number;
+  plus() {
+    _number++;
     notifyListeners();
+  }
+}
+
+class Page1 extends StatelessWidget {
+  const Page1({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        color: Colors.teal,
+        width: double.infinity,
+        height: double.infinity,
+        child: Column(
+          children: [
+            Text('Page1 ne ba con'),
+            Text(context.watch<NCC>().get_number.toString()),
+            ElevatedButton(
+                onPressed: (() => {context.read<NCC>().plus()}),
+                child: Text('+1')),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Page2()));
+                },
+                child: Text('NEXT'))
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -68,36 +64,55 @@ class Page2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Oc cho la co that'),
-      ),
       body: Container(
-        height: double.infinity,
+        color: Colors.indigo,
         width: double.infinity,
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-          colors: [Colors.yellow, Colors.teal],
-          begin: Alignment.bottomLeft,
-          end: Alignment.topRight,
-        )),
+        height: double.infinity,
         child: Column(
           children: [
-            SizedBox(height: 300),
-            Text(context.watch<CounterProvider_NCC>().get_c.toString()),
-            SizedBox(height: 100),
+            Text('Page2 ne ba con'),
+            Text(context.watch<NCC>().get_number.toString()),
+            ElevatedButton(
+                onPressed: (() => {context.read<NCC>().plus()}),
+                child: Text('+1')),
             ElevatedButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Page3()));
                 },
-                child: Text('Go to Page 1'))
+                child: Text('NEXT'))
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.plus_one),
-        onPressed: () {
-          context.read<CounterProvider_NCC>().plus();
-        },
+    );
+  }
+}
+
+class Page3 extends StatelessWidget {
+  const Page3({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        color: Colors.yellow,
+        width: double.infinity,
+        height: double.infinity,
+        child: Column(
+          children: [
+            Text('Page2 ne ba con'),
+            Text(context.watch<NCC>().get_number.toString()),
+            ElevatedButton(
+                onPressed: (() => {context.read<NCC>().plus()}),
+                child: Text('+1')),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Page1()));
+                },
+                child: Text('NEXT'))
+          ],
+        ),
       ),
     );
   }
